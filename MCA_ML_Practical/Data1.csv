@@ -1,0 +1,10 @@
+Country,Age,Salary,Purchased
+India,49,62000,No
+Pakistan,32,38000,Yes
+Bhutan,35,44000,No
+Bangladesh,NaN,51000,No
+Nepal,45,NaN,Yes
+Srilanka,40,48000,Yes
+Burma,NaN,42000,No
+China,53,69000,Yes
+Afganistan,55,73000,No

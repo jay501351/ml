@@ -1,0 +1,149 @@
+import 'package:exam_practical/Page4.dart';
+import 'package:flutter/material.dart';
+
+import 'Page 3.dart';
+import 'Page1.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      ),debugShowCheckedModeBanner: false,
+      home:SumFormPage(),
+    );
+  }
+}
+
+class SumFormPage extends StatefulWidget {
+  const SumFormPage({super.key});
+
+  @override
+  State<SumFormPage> createState() => _SumFormPageState();
+}
+
+class _SumFormPageState extends State<SumFormPage> {
+  final TextEditingController _field1Controller = TextEditingController();
+  final TextEditingController _field2Controller = TextEditingController();
+  final TextEditingController _field3Controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _field1Controller.dispose();
+    _field2Controller.dispose();
+    _field3Controller.dispose();
+    super.dispose();
+  }
+
+  void _onSubmit() {
+    final text1 = _field1Controller.text.trim();
+    final text2 = _field2Controller.text.trim();
+    final text3 = _field3Controller.text.trim();
+
+    if (text1.isEmpty || text2.isEmpty || text3.isEmpty) {
+      // Show SnackBar if any field is empty
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please fill all the fields'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+      return;
+    }
+
+    // Convert to numbers and calculate sum
+    final num1 = double.tryParse(text1) ?? 0;
+    final num2 = double.tryParse(text2) ?? 0;
+    final num3 = double.tryParse(text3) ?? 0;
+
+    final sum = num1 + num2 + num3;
+
+    // Navigate to second page with the sum
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ResultPage(sum: sum),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Enter 3 Numbers'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: _field1Controller,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                labelText: 'Number 1',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: _field2Controller,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                labelText: 'Number 2',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: _field3Controller,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                labelText: 'Number 3',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 20),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: _onSubmit,
+                child: const Text('Submit'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ResultPage extends StatelessWidget {
+  final double sum;
+
+  const ResultPage({super.key, required this.sum});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Sum Result'),
+      ),
+      body: Center(
+        child: Text(
+          'The sum is: $sum',
+          style: const TextStyle(fontSize: 24),
+        ),
+      ),
+    );
+  }
+}

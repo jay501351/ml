@@ -1,0 +1,144 @@
+import 'package:flutter/material.dart';
+
+void main() => runApp(const MyApp());
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(),
+      home: const HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Home')),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const Page1()),
+            );
+          },
+          child: const Text('go to page 1'),
+        ),
+      ),
+    );
+  }
+}
+
+class Page1 extends StatelessWidget {
+  const Page1({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('this is page 1')),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          // push -> Page2
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const Page2()),
+              );
+            },
+            child: const Text('navigate to page 2'),
+          ),
+          const SizedBox(height: 12),
+          // pushReplacement -> Page3
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => const Page3()),
+              );
+            },
+            child: const Text('push Replacement'),
+          ),
+          const SizedBox(height: 12),
+          // pushAndRemoveUntil -> Page3, keep first (home) only
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (_) => const Page3()),
+                    (route) => route.isFirst,
+              );
+            },
+            child: const Text('push and Remove Until'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class Page2 extends StatelessWidget {
+  const Page2({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Page2')),
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Replace current page with Page3
+            ElevatedButton(
+              onPressed: () {
+                final route = MaterialPageRoute(builder: (_) => const Page3());
+                Navigator.of(context).replace(
+                  oldRoute: ModalRoute.of(context)!,
+                  newRoute: route,
+                );
+              },
+              child: const Text('current page replacement'),
+            ),
+            const SizedBox(height: 12),
+            // Pop until first (home)
+            ElevatedButton(
+              onPressed: () {
+                Navigator.popUntil(context, (route) => route.isFirst);
+              },
+              child: const Text('pop until home'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class Page3 extends StatelessWidget {
+  const Page3({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Page3')),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: const Text('Go Back'),
+        ),
+      ),
+    );
+  }
+}

@@ -1,0 +1,97 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'TabBar Example',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: const Tabbar(), // 👈 main screen
+    );
+  }
+}
+
+class Tabbar extends StatelessWidget {
+  const Tabbar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 3, // 👈 number of tabs
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Center(
+            child: Text(
+              "TabBar",
+              style: TextStyle(color: Colors.grey, fontSize: 25),
+            ),
+          ),
+          backgroundColor: Colors.black38,
+          bottom: const TabBar(
+            tabs: [
+              Tab(text: "Home", icon: Icon(Icons.home_filled)),
+              Tab(text: "Profile", icon: Icon(Icons.person)),
+              Tab(text: "Settings", icon: Icon(Icons.settings)),
+            ],
+          ),
+        ),
+        body: const TabBarView(
+          children: [
+            Home(),
+            Profile(),
+            Settings(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class Home extends StatelessWidget {
+  const Home({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text(
+        "Home",
+        style: TextStyle(color: Colors.blue, fontSize: 25.0),
+      ),
+    );
+  }
+}
+
+class Profile extends StatelessWidget {
+  const Profile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text(
+        "Profile",
+        style: TextStyle(color: Colors.blue, fontSize: 25.0),
+      ),
+    );
+  }
+}
+
+class Settings extends StatelessWidget {
+  const Settings({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text(
+        "Settings",
+        style: TextStyle(color: Colors.blue, fontSize: 25.0),
+      ),
+    );
+  }
+}
